@@ -4,11 +4,12 @@
     <Goods v-for="item in list" :key="item.id"
            :id="item.id"
            :imgUrl="item.goods_img" 
-           :num="item.goods_count"
            :price="item.goods_price" 
            :state="item.goods_state"  
            :content="item.goods_name" 
-           @state-change ="getNewState" />
+           @state-change ="getNewState">
+           <Count :id="item.id" :count="item.goods_count" @changeNum="getNewNum(item,$event)" />
+           </Goods>
     <Footer :flag="fullState"
             :total="totalPrice"
            :count="totalCount"
@@ -22,13 +23,14 @@ import Header from './components/Header.vue';
 import Footer from './components/Footer.vue'
 import axios from 'axios'
 import Goods from './components/Goods.vue';
-import bus from '@/components/busEvent'
+import Count from './components/Count.vue';
 export default {
   name: 'App',
   components: {
     Header,
     Footer,
     Goods,
+    Count
 },
   data(){
     return{
@@ -53,14 +55,14 @@ export default {
         item.goods_state = val
       })
     },
+    getNewNum(item,val){
+      item.goods_count = val
+    }
     
   },  
   created(){
     //调用请求数据的方法
     this.initCartList()
-    bus.$on('changeNum',(val)=>{
-      this.list[val.id - 1].goods_count = val.num
-    })
   },
   computed:{
     fullState(){

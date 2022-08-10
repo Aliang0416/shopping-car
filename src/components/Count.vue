@@ -10,7 +10,6 @@
 </template>
 
 <script>
-import bus from '@/components/busEvent'
 export default {
     data(){
         return {
@@ -30,15 +29,14 @@ export default {
     methods:{
         sub(){
             if(this.num>1){
-                this.num--
+                this.$emit('changeNum',this.num-=1)
             }else{
                 alert('宝贝数量不能再减少了')
             }
-            bus.$emit('changeNum',{num : this.num, id : this.id})
+            
         },
         add(){
-            this.num++
-            bus.$emit('changeNum',{num : this.num, id : this.id})
+            this.$emit('changeNum',this.num+=1)
         }
     }
 }

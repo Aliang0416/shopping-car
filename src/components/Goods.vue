@@ -19,14 +19,13 @@
         <!-- 商品价格 -->
         <span class="goods-price">￥{{ price }}</span>
         <!-- 商品的数量 -->
-        <Count :count="num" :id="id"/>
+        <slot></slot>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import Count from './Count.vue'
 export default {
     props: {
         imgUrl: {
@@ -49,10 +48,6 @@ export default {
             required: true,
             type: Number
         },
-        num:{
-            default:1,
-            type:Number
-        }
     },
     methods: {
         changeState(e) {
@@ -60,7 +55,6 @@ export default {
             this.$emit("state-change", { id: this.id, state: newState });
         }
     },
-    components: { Count },
 }   
 </script>
 
